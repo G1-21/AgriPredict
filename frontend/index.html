@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriPredict</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Crop Yield Prediction</h1>
+
+<input type="number" id="rainfall" placeholder="Rainfall">
+<input type="number" id="temperature" placeholder="Temperature">
+<input type="number" id="humidity" placeholder="Humidity">
+<input type="number" id="nitrogen" placeholder="Nitrogen">
+<input type="number" id="phosphorus" placeholder="Phosphorus">
+<input type="number" id="potassium" placeholder="Potassium">
+
+<button onclick="predictYield()">
+Predict Yield
+</button>
+
+<h2 id="result"></h2>
+<h2>Yield Prediction History</h2>
+
+<canvas id="yieldChart"></canvas>
+<h3 id="count">Total Predictions: 0</h3>
+
+<h1>Crop Recommendation</h1>
+
+<input type="number" id="N" placeholder="Nitrogen">
+<input type="number" id="P" placeholder="Phosphorus">
+<input type="number" id="K" placeholder="Potassium">
+<input type="number" id="temp_crop" placeholder="Temperature">
+<input type="number" id="humidity_crop" placeholder="Humidity">
+<input type="number" id="ph" placeholder="pH">
+<input type="number" id="rainfall_crop" placeholder="Rainfall">
+
+<button onclick="recommendCrop()">
+    Recommend Crop
+</button>
+
+<h2 id="cropResult"></h2>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
