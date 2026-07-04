@@ -1,10 +1,30 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function HeroSection() {
+function HeroSection({ openLogin }) {
 
   const navigate = useNavigate();
 
+  const [yieldHover, setYieldHover] = useState(false);
+  const [cropHover, setCropHover] = useState(false);
+
+  const handleProtectedNavigation = (path) => {
+
+    const user = localStorage.getItem("user");
+
+    if (user) {
+
+      navigate(path);
+
+    } else {
+
+      openLogin();
+
+    }
+  };
+
   return (
+
     <div
       style={{
         background:
@@ -13,14 +33,16 @@ function HeroSection() {
         padding: "40px",
         borderRadius: "15px",
         marginBottom: "30px",
-        boxShadow: "0px 5px 15px rgba(0,0,0,0.2)"
+        boxShadow:
+          "0px 5px 15px rgba(0,0,0,0.2)"
       }}
     >
 
       <div
         style={{
           display: "inline-block",
-          backgroundColor: "rgba(255,255,255,0.2)",
+          backgroundColor:
+            "rgba(255,255,255,0.2)",
           padding: "8px 15px",
           borderRadius: "20px",
           marginBottom: "15px"
@@ -57,31 +79,71 @@ function HeroSection() {
         }}
       >
 
-        <button
-          onClick={() => navigate("/yield")}
-          style={{
-            backgroundColor: "white",
-            color: "#166534",
-            border: "none",
-            padding: "12px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontWeight: "bold"
-          }}
-        >
-          📈 Predict Yield
-        </button>
+        {/* Predict Yield Button */}
 
         <button
-          onClick={() => navigate("/crop")}
+          onMouseEnter={() => setYieldHover(true)}
+          onMouseLeave={() => setYieldHover(false)}
+          onClick={() =>
+            handleProtectedNavigation("/yield")
+          }
           style={{
-            backgroundColor: "#14532d",
-            color: "white",
-            border: "none",
+            background: yieldHover
+              ? "rgba(255,255,255,0.25)"
+              : "white",
+            backdropFilter: yieldHover
+              ? "blur(12px)"
+              : "none",
+            color: "#166534",
+            border: yieldHover
+              ? "1px solid rgba(255,255,255,0.3)"
+              : "none",
             padding: "12px 20px",
-            borderRadius: "8px",
+            borderRadius: "12px",
             cursor: "pointer",
-            fontWeight: "bold"
+            fontWeight: "bold",
+            transition: "all 0.3s ease",
+            transform: yieldHover
+              ? "translateY(-3px)"
+              : "translateY(0)",
+            boxShadow: yieldHover
+              ? "0 8px 20px rgba(255,255,255,0.25)"
+              : "none"
+          }}
+        >
+          📈  Predict Yield
+        </button>
+
+        {/* Crop Recommendation Button */}
+
+        <button
+          onMouseEnter={() => setCropHover(true)}
+          onMouseLeave={() => setCropHover(false)}
+          onClick={() =>
+            handleProtectedNavigation("/crop")
+          }
+          style={{
+            background: cropHover
+              ? "rgba(255,255,255,0.15)"
+              : "#14532d",
+            backdropFilter: cropHover
+              ? "blur(12px)"
+              : "none",
+            color: "white",
+            border: cropHover
+              ? "1px solid rgba(255,255,255,0.3)"
+              : "none",
+            padding: "12px 20px",
+            borderRadius: "12px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            transition: "all 0.3s ease",
+            transform: cropHover
+              ? "translateY(-3px)"
+              : "translateY(0)",
+            boxShadow: cropHover
+              ? "0 8px 20px rgba(255,255,255,0.15)"
+              : "none"
           }}
         >
           🌱 Recommend Crop
@@ -90,6 +152,7 @@ function HeroSection() {
       </div>
 
     </div>
+
   );
 }
 

@@ -2,9 +2,41 @@ import Layout from "../components/Layout";
 import HeroSection from "../components/HeroSection";
 import Cards from "../components/Cards";
 
+import { useEffect, useState } from "react";
+import API_URL from "../api/api";
+
 function Dashboard() {
 
+  const [stats, setStats] = useState({
+    total_predictions: 0,
+    total_users: 0,
+    recommended_crops: 0,
+    top_crop: "N/A",
+    model_accuracy: 92
+  });
+
+  useEffect(() => {
+
+    fetch(`${API_URL}/dashboard-stats`)
+      .then((response) => response.json())
+      .then((data) => {
+
+        setStats(data);
+
+      })
+      .catch((error) => {
+
+        console.error(
+          "Dashboard Stats Error:",
+          error
+        );
+
+      });
+
+  }, []);
+
   return (
+
     <Layout>
 
       {/* Hero Section */}
@@ -13,124 +45,239 @@ function Dashboard() {
       {/* Statistics Cards */}
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(220px,1fr))",
           gap: "20px",
-          flexWrap: "wrap",
           marginTop: "20px"
         }}
       >
 
         <Cards
           title="Total Predictions"
-          value="25"
+          value={stats.total_predictions}
           icon="📈"
         />
 
         <Cards
           title="Recommended Crops"
-          value="10"
+          value={stats.recommended_crops}
           icon="🌱"
         />
 
         <Cards
           title="Model Accuracy"
-          value="92%"
+          value={`${stats.model_accuracy}%`}
           icon="🎯"
         />
 
         <Cards
-          title="Active Users"
-          value="15"
+          title="Registered Users"
+          value={stats.total_users}
           icon="👨‍🌾"
         />
 
       </div>
 
-      {/* Information Section */}
+      {/* Top Crop Highlight */}
       <div
         style={{
-          backgroundColor: "white",
-          marginTop: "30px",
+          marginTop: "20px",
+          background:
+            "linear-gradient(135deg,#166534,#22c55e)",
+          color: "white",
           padding: "25px",
           borderRadius: "15px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+          boxShadow:
+            "0 8px 20px rgba(34,197,94,0.25)"
         }}
       >
 
-        <h2
+        <h3>
+          🌾 Most Recommended Crop
+        </h3>
+
+        <h1
           style={{
-            marginBottom: "15px",
-            color: "#166534"
+            marginTop: "10px",
+            textTransform: "capitalize",
+            fontSize: "40px"
           }}
         >
-          How AgriPredict Works
-        </h2>
+          {stats.top_crop}
+        </h1>
 
+      </div>
+
+      {/* Information + Model Summary */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(400px,1fr))",
+          gap: "20px",
+          marginTop: "25px"
+        }}
+      >
+
+        {/* How It Works */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-            gap: "20px",
-            marginTop: "20px"
+            backgroundColor: "white",
+            padding: "25px",
+            borderRadius: "15px",
+            boxShadow:
+              "0 4px 10px rgba(0,0,0,0.1)"
           }}
         >
 
+          <h2
+            style={{
+              color: "#166534",
+              marginBottom: "20px"
+            }}
+          >
+            🚀 How AgriPredict Works
+          </h2>
+
           <div>
+
             <h3>1️⃣ Soil Analysis</h3>
             <p>
               Enter Nitrogen, Phosphorus and Potassium values.
             </p>
-          </div>
 
-          <div>
             <h3>2️⃣ Weather Inputs</h3>
             <p>
               Provide temperature, humidity and rainfall.
             </p>
-          </div>
 
-          <div>
             <h3>3️⃣ ML Prediction</h3>
             <p>
-              Random Forest model processes the data.
+              Random Forest model predicts crop yield.
             </p>
+
+            <h3>4️⃣ Smart Recommendations</h3>
+            <p>
+              Get crop recommendations based on inputs.
+            </p>
+
           </div>
 
-          <div>
-            <h3>4️⃣ Smart Results</h3>
+        </div>
+
+        {/* Model Summary */}
+        <div
+          style={{
+            background:
+              "linear-gradient(135deg,#dcfce7,#bbf7d0)",
+            padding: "25px",
+            borderRadius: "15px",
+            border: "1px solid #86efac"
+          }}
+        >
+
+          <h2>
+            🏆 Model Performance
+          </h2>
+
+          <div
+            style={{
+              marginTop: "20px"
+            }}
+          >
+
+            <h3>
+              📈 Yield Prediction Accuracy
+            </h3>
+
             <p>
-              Get crop yield prediction and crop recommendation.
+              <strong>
+                {stats.model_accuracy}%
+              </strong>
             </p>
+
+            <h3>
+              🌱 Crop Recommendation Accuracy
+            </h3>
+
+            <p>
+              <strong>
+                95%
+              </strong>
+            </p>
+
           </div>
 
         </div>
 
       </div>
 
-      {/* Model Summary */}
+      {/* Quick Insights */}
       <div
         style={{
-          background: "#dcfce7",
           marginTop: "25px",
-          padding: "20px",
+          backgroundColor: "white",
+          padding: "25px",
           borderRadius: "15px",
-          border: "1px solid #86efac"
+          boxShadow:
+            "0 4px 10px rgba(0,0,0,0.1)"
         }}
       >
 
-        <h3>🏆 Model Performance Summary</h3>
+        <h2
+          style={{
+            color: "#166534"
+          }}
+        >
+          📊 Quick Insights
+        </h2>
 
-        <p style={{ marginTop: "10px" }}>
-          Random Forest Regression Accuracy: <strong>92%</strong>
-        </p>
+        <ul
+          style={{
+            marginTop: "15px",
+            lineHeight: "2"
+          }}
+        >
 
-        <p>
-          Crop Recommendation Accuracy: <strong>95%</strong>
-        </p>
+          <li>
+            🌾 Most Recommended Crop:
+            <strong>
+              {" "}
+              {stats.top_crop}
+            </strong>
+          </li>
+
+          <li>
+            📈 Total Predictions:
+            <strong>
+              {" "}
+              {stats.total_predictions}
+            </strong>
+          </li>
+
+          <li>
+            👨‍🌾 Registered Users:
+            <strong>
+              {" "}
+              {stats.total_users}
+            </strong>
+          </li>
+
+          <li>
+            🎯 Model Accuracy:
+            <strong>
+              {" "}
+              {stats.model_accuracy}%
+            </strong>
+          </li>
+
+        </ul>
 
       </div>
 
     </Layout>
+
   );
 }
 

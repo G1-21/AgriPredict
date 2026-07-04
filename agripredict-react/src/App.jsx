@@ -3,6 +3,7 @@ import CropRecommendation from "./pages/CropRecommendation";
 import Analytics from "./pages/Analytics";
 import History from "./pages/History";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route }
 from "react-router-dom";
 
@@ -19,6 +20,11 @@ function App() {
 
         <Route
           path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/login"
           element={<Login />}
         />
         
